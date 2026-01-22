@@ -6,7 +6,7 @@ A terraform project to quickly spin up a containerised, serverless FastAPI proje
 
 You'll need Docker set up to build your API image.
 
-## Quickstart
+## Quick start
 
 1. Create a tfvars file for each environment you want to deploy to hold non-sensitive values (e.g. `development.tfvars`)
 1. Create a `secrets.auto.tfvars` file with `cp secret.example.tfvars secret.auto.tfvars`
@@ -18,7 +18,7 @@ If you need to force a re-build of the image:
 
 `terraform taint null_resource.image`
 
-## Terraform - What it do?
+## Terraform - what it do
 
 In short, the terraform code will:
 
