@@ -43,7 +43,16 @@ locals {
 resource "null_resource" "image" {
   triggers = {
     # Trigger a rebuild of the image if any of theses files in the code directory change
-    hash = md5(join("-", [for x in fileset("", "../code/{*.py,*.txt,Dockerfile}") : filemd5(x)]))
+    hash = md5(join(
+      "-",
+      [
+        for x in concat(
+          tolist(fileset("../code", "*.py")),
+          tolist(fileset("../code", "*.txt")),
+          tolist(fileset("../code", "Dockerfile"))
+        ) : filemd5("../code/${x}")
+      ]
+    ))
   }
 
   provisioner "local-exec" {

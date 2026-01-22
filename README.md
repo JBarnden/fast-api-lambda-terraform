@@ -18,7 +18,23 @@ If you need to force a re-build of the image:
 
 `terraform taint null_resource.image`
 
-## Terraform - what it do
+## Local development (Docker + hot reload)
+
+The Lambda entrypoint is `handler = Mangum(app)` in `code/main.py`, but for local
+development you can run the FastAPI app directly with `uvicorn` and hot reload.
+
+From the repo root:
+
+1. `cp .env.development.example code/.env.development`
+1. `docker compose up --build`
+1. Visit `http://localhost:8000/hello`
+
+This uses `docker-compose.yml` + `code/Dockerfile.dev` and mounts your `code/`
+directory into the container, so any changes to `main.py` or other modules are
+picked up automatically. Environment variables are loaded from
+`code/.env.development`.
+
+## Terraform - What it do?
 
 In short, the terraform code will:
 
