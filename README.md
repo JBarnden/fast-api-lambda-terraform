@@ -1,6 +1,6 @@
 # FastAPI Lambda Terraform
 
-A terraform project for to quickly spin up a containerised, serverless FastAPI project on AWS with support for multiple environments.
+A terraform project to quickly spin up a containerised, serverless FastAPI project on AWS with support for multiple environments.
 
 # Pre-requisites
 
