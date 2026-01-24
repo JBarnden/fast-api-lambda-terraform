@@ -1,2 +1,5 @@
-profile    = "default"
-secret_key = "your-secret-key"
+profile             = "default"
+secret_key          = "your-secret-key-bleep-bloop"
+cdn_secret_key      = "your-cdn-secret-key-bleep-bloop"
+acm_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
+route_53_domain     = "yourdomain.com"
