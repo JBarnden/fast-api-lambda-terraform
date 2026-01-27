@@ -1,5 +1,7 @@
 # Vars files
-secret.auto.tfvars
+*.tfvars
+# Exclude .example.tfvars files
+!*.example.tfvars
 code/.env.development
 
 
