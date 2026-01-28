@@ -17,7 +17,6 @@ resource "aws_lambda_function" "api" {
   environment {
     variables = {
       "DEMO_ENVIRONMENT_VARIABLE" = var.demo_environment_variable
-      "SECRET_KEY"                = var.secret_key
       "CDN_SECRET_KEY"            = var.cdn_secret_key
     }
   }

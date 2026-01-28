@@ -7,10 +7,9 @@ data "aws_cloudfront_origin_request_policy" "all_viewer_except_host" {
 }
 
 resource "aws_cloudfront_distribution" "api_cdn" {
-  # Only create this resource if we have the required variables
-  count = (var.acm_certificate_arn != "" && var.route_53_domain != "" && var.cdn_secret_key != "") ? 1 : 0
+  count = (var.enable_cdn) ? 1 : 0
 
-  enabled = var.enable_cdn
+  enabled = true
   # Only include the environment in the domain name if environment != "production"
   aliases = var.environment != "production" ? ["${var.project_name}-${var.environment}.${var.route_53_domain}"] : ["${var.project_name}.${var.route_53_domain}"]
   comment = "CDN for ${var.project_name}-${var.environment}"
@@ -36,9 +35,9 @@ resource "aws_cloudfront_distribution" "api_cdn" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "LambdaOrigin"
+    allowed_methods          = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods           = ["GET", "HEAD"]
+    target_origin_id         = "LambdaOrigin"
     cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
     origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_viewer_except_host.id
 
