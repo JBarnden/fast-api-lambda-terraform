@@ -6,12 +6,16 @@ data "aws_cloudfront_origin_request_policy" "all_viewer_except_host" {
   name = "Managed-AllViewerExceptHostHeader"
 }
 
+locals {
+  cdn_url = var.environment != "production" ? "${var.project_name}-${var.environment}.${var.route_53_domain}" : "${var.project_name}.${var.route_53_domain}"
+}
+
 resource "aws_cloudfront_distribution" "api_cdn" {
   count = (var.enable_cdn) ? 1 : 0
 
   enabled = true
   # Only include the environment in the domain name if environment != "production"
-  aliases = var.environment != "production" ? ["${var.project_name}-${var.environment}.${var.route_53_domain}"] : ["${var.project_name}.${var.route_53_domain}"]
+  aliases = [local.cdn_url]
   comment = "CDN for ${var.project_name}-${var.environment}"
 
   origin {
@@ -56,4 +60,8 @@ resource "aws_cloudfront_distribution" "api_cdn" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
+}
+
+output "cdn_url" {
+  value = (var.enable_cdn) ? "https://${local.cdn_url}" : null
 }
