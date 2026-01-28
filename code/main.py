@@ -5,6 +5,8 @@ from starlette.responses import FileResponse
 from mangum import Mangum
 from dotenv import load_dotenv
 import logging
+import json
+from middlewares.cdn_secret_key_middleware import CdnSecretKeyMiddleware
 
 # Configure logger
 logger = logging.getLogger()
@@ -34,20 +36,21 @@ app.add_middleware(
     ],
 )
 
+app.add_middleware(CdnSecretKeyMiddleware)
+
 
 @app.get("/hello")
 def hello_world():
     # Verify the environment variable is working
     message = os.environ.get("DEMO_ENVIRONMENT_VARIABLE")
-    secret_key = os.environ.get("SECRET_KEY")
-    # Verify the secrets file and log group are working
-    logger.info(f"Secret key: {secret_key}")
 
     if not message:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Couldn't retrieve environment variable",
         )
+
+    logger.info(f"Message: {message}")
 
     return {"message": message}
 

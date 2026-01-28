@@ -8,9 +8,8 @@ You'll need Docker set up to build your API image.
 
 ## Quick start
 
-1. Create a tfvars file for each environment you want to deploy to hold non-sensitive values (e.g. `development.tfvars`)
-1. Create a `secrets.auto.tfvars` file with `cp secret.example.tfvars secret.auto.tfvars`
-1. To use an AWS profile other than `default`, set the `profile` variable in `development.tfvars`
+1. Create a tfvars file for each environment you want to deploy to (e.g. `development.tfvars`, see `development.example.tfvars` for example)
+1. To use an AWS profile other than `default`, set the `profile` variable in your environment `tfvars` file, or in a `secrets.auto.tfvars` file to set it across all environments (see `secrets.example.tfvars`)
 1. From the `terraform` directory, run `terraform init`
 1. Run `terraform plan -var-file="development.tfvars"` and/or `terraform apply -var-file="development.tfvars"` as needed
 
@@ -34,6 +33,19 @@ directory into the container, so any changes to `main.py` or other modules are
 picked up automatically. Environment variables are loaded from
 `code/.env.development`.
 
+## Running tests
+
+Install dependencies from the `code` directory and run pytest from the repo root:
+
+1. `pip install -r code/requirements.txt -r code/requirements-dev.txt`
+1. `pytest -q code/tests`
+
+Or run tests from docker container with dependencies:
+
+1. `docker compose up -d tests`
+1. `docker compose exec tests bash`
+1. `pytest -q code/tests`
+
 ## Terraform - What it do?
 
 In short, the terraform code will:
@@ -44,12 +56,11 @@ In short, the terraform code will:
 
 There's also a configurable lifecycle policy that can be set for each environment to delete older images from ECR
 
-
 ## FastAPI - What it do?
 
 - Very basic API with a `/hello` endpoint that:
-    - Returns the demo environment variable in a payload
-    - Logs the demo secret key (from the secrets file to prove it's working)
+  - Returns the demo environment variable in a payload
+  - Logs the demo secret key (from the secrets file to prove it's working)
 
 Useful references:
 
