@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY code/requirements.txt ./code/requirements.txt
+COPY code/requirements-dev.txt ./code/requirements-dev.txt
+RUN pip install --no-cache-dir -r code/requirements.txt \
+    && pip install --no-cache-dir -r code/requirements-dev.txt
+
+COPY code ./code
+
+ENV PYTHONPATH=/app/code
+
+CMD ["pytest", "-q", "code/tests"]

@@ -9,3 +9,12 @@ services:
       - ./code:/app
     env_file:
       - ./code/.env.development
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    volumes:
+      - ./code:/app/code
+    working_dir: /app
+    entrypoint: ["sh", "-c", "sleep infinity"]

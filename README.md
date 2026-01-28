@@ -33,6 +33,19 @@ directory into the container, so any changes to `main.py` or other modules are
 picked up automatically. Environment variables are loaded from
 `code/.env.development`.
 
+## Running tests
+
+Install dependencies from the `code` directory and run pytest from the repo root:
+
+1. `pip install -r code/requirements.txt -r code/requirements-dev.txt`
+1. `pytest -q code/tests`
+
+Or run tests from docker container with dependencies:
+
+1. `docker compose up -d tests`
+1. `docker compose exec tests bash`
+1. `pytest -q code/tests`
+
 ## Terraform - What it do?
 
 In short, the terraform code will:
