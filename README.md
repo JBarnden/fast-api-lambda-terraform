@@ -12,6 +12,7 @@ You'll need Docker set up to build your API image.
 1. To use an AWS profile other than `default`, set the `profile` variable in your environment `tfvars` file, or in a `secrets.auto.tfvars` file to set it across all environments (see `secrets.example.tfvars`)
 1. From the `terraform` directory, run `terraform init`
 1. Run `terraform plan -var-file="development.tfvars"` and/or `terraform apply -var-file="development.tfvars"` as needed
+1. (Optional) to store your terraform state in S3 (required for collaboration or working from multiple machines), uncomment and configure the s3 backend block in `main.tf`. Otherwise terraform state will be stored locally.
 
 If you need to force a re-build of the image:
 
