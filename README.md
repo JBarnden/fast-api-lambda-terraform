@@ -17,6 +17,10 @@ If you need to force a re-build of the image:
 
 `terraform taint null_resource.image`
 
+If you want to tear down the environment:
+
+`terraform destroy -var-file="development.tfvars"`
+
 ## Local development (Docker + hot reload)
 
 The Lambda entrypoint is `handler = Mangum(app)` in `code/main.py`, but for local

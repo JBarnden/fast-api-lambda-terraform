@@ -1,11 +1,9 @@
 import os
+import logging
 from fastapi import FastAPI, HTTPException, status
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 from mangum import Mangum
-from dotenv import load_dotenv
-import logging
-import json
 from middlewares.cdn_secret_key_middleware import CdnSecretKeyMiddleware
 
 # Configure logger
@@ -17,8 +15,11 @@ if logger.hasHandlers():
 else:
     logging.basicConfig(level=logging.INFO)
 
-# Load environment variables from .env (only required for local development)
-load_dotenv()
+# Load environment variables from .env (only for local development)
+if not os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    from dotenv import load_dotenv
+
+    load_dotenv()
 
 
 app = FastAPI(title="MyAwesomeApp")
